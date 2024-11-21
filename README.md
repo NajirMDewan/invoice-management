@@ -1,44 +1,120 @@
-# Getting Started with Create React App
+# Invoice Management Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a React-based application that automates the extraction, processing, and management of invoice, product, and customer data. The app supports file uploads (PDF, images, Excel/CSV), utilizes AI-powered tools for data extraction, and prepares for centralized state management with Redux.
 
-## Available Scripts
+## **Features**
+- Upload and process files:
+  - **PDF/Images**: Extract text using OCR (Tesseract.js).
+  - **Excel/CSV**: Parse data into structured JSON format (PapaParse).
+- Display extracted data for validation and review.
+- Prepare for tabs to organize data into Invoices, Products, and Customers.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## **Setup Instructions**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### **Prerequisites**
+1. Node.js (v16 recommended)
+2. npm or yarn
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### **Installation**
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/NajirMDewan/invoice-management.git
+   cd invoice-management
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-### `npm test`
+3. Start the development server:
+   ```bash
+   npm start
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## **Project Structure**
+```
+invoice-management/
+├── public/
+├── src/
+│   ├── components/
+│   │   └── FileUpload.js     # File upload component
+│   ├── redux/
+│   │   ├── store.js          # Redux store configuration
+│   │   ├── invoicesSlice.js  # Invoices slice
+│   │   ├── productsSlice.js  # Products slice
+│   │   └── customersSlice.js # Customers slice
+│   ├── utils/
+│   │   ├── ocr.js            # OCR processing logic
+│   │   └── parser.js         # Excel/CSV parsing logic
+│   ├── App.js                # Main application component
+│   └── index.js              # Entry point
+├── package.json
+└── README.md
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## **Implemented Features**
 
+### **File Upload**
+- **Library**: `react-filepond`
+- Supports multiple file types:
+  - PDF
+  - Images (JPG/PNG)
+  - Excel/CSV
 
-### `npm run eject`
+### **OCR Integration**
+- **Library**: `Tesseract.js`
+- Extracts text from PDFs and images for processing.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### **Excel/CSV Parsing**
+- **Library**: `PapaParse`
+- Converts uploaded Excel/CSV files into structured JSON data.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### **State Management**
+- **Redux Toolkit**:
+  - Configured slices for `Invoices`, `Products`, and `Customers`.
+  - Centralized state management for consistency.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## **To-Do**
+1. Implement tabs for Invoices, Products, and Customers.
+2. Display data in organized tables.
+3. Real-time updates across tabs using Redux.
+4. Add validation and error handling for missing/incorrect data.
+5. Deploy the application to a platform (e.g., Vercel, Netlify).
 
+---
 
-### `npm run build` fails to minify
+## **Commands**
+- Start the development server:
+  ```bash
+  npm start
+  ```
+- Install dependencies:
+  ```bash
+  npm install
+  ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+## **Tech Stack**
+- **Frontend**: React, FilePond, Redux Toolkit
+- **AI Processing**: Tesseract.js, PapaParse
+- **Styling**: Minimal, customizable later
+
+---
+
+## **Acknowledgments**
+- [Tesseract.js](https://tesseract.projectnaptha.com/)
+- [PapaParse](https://www.papaparse.com/)
+- [FilePond](https://pqina.nl/filepond/)
+
+---
+
+### Next steps are in progress..
