@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
-import { addCustomer } from '../redux/customersSlice';
+import { addCustomer, updateCustomer } from '../redux/customersSlice';
+import { syncCustomer } from '../redux/invoicesSlice';
 
 const Customers = () => {
   const customers = useSelector((state) => state.customers); // Access customers state
@@ -17,6 +18,11 @@ const Customers = () => {
     dispatch(addCustomer(newCustomer)); // Add customer to Redux store
   };
 
+  const handleUpdateCustomer = (updatedCustomer) => {
+    dispatch(updateCustomer(updatedCustomer));
+    dispatch(syncCustomer(updatedCustomer));  // Sync customer with invoices
+  };
+
   return (
     <div>
       <button onClick={handleAddCustomer}>Add Customer</button>
@@ -26,6 +32,7 @@ const Customers = () => {
             <TableCell>Name</TableCell>
             <TableCell>Phone</TableCell>
             <TableCell>Total Purchase</TableCell>
+            <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -34,6 +41,18 @@ const Customers = () => {
               <TableCell>{customer.name}</TableCell>
               <TableCell>{customer.phone}</TableCell>
               <TableCell>{customer.totalPurchase}</TableCell>
+              <TableCell>
+                <button 
+                  onClick={() => 
+                    handleUpdateCustomer({
+                      ...customer,
+                      name: `Updated ${customer.name}`,    // example update
+                    })
+                  }
+                  >
+                    Edit
+                  </button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

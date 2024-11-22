@@ -13,8 +13,32 @@ const invoicesSlice = createSlice({
         state[index] = action.payload;
       }
     },
+
+    // Upadte product details in all invoices
+    syncProduct: (state, action) => {
+      const { id, name, unitPrice, tax } = action.payload;
+      state.forEach((invoice) => {
+        if (invoice.productId === id) {
+          invoice.productName = name;
+          invoice.unitPrice = unitPrice;
+          invoice.tax = tax;
+          invoice.total = invoice.qty*(unitPrice + tax);
+        }
+      });
+    },
+
+    // Update customer details in all invoices
+    syncCustomer: (state, action) => {
+      const { id, name } = action.payload;
+      state.forEach((invoice) => {
+        if (invoice.customerId === id) {
+          invoice.customerName = name;
+
+        }
+      });
+    },
   },
 });
 
-export const { addInvoice, updateInvoice } = invoicesSlice.actions;
+export const { addInvoice, updateInvoice, syncProduct, syncCustomer } = invoicesSlice.actions;
 export default invoicesSlice.reducer;
