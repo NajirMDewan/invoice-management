@@ -5,17 +5,31 @@ import { addInvoice } from '../redux/invoicesSlice';
 
 const Invoices = () => {
   const invoices = useSelector((state) => state.invoices);
+  const products = useSelector((state) => state.products);
+  const customers = useSelector((state) => state.customers);
   const dispatch = useDispatch();
 
   const handleAddInvoice = () => {
+    // ensuring there is not products and customers availabe
+    if (products.length === 0 || customers.length === 0) {
+      console.log("No products or customers available to create an invoce.");
+      return;
+    }
+
+    // dynamically pick the first product and customer as an example
+    const selectedProduct = products[0];
+    const selectedCustomer = customers[0];
+
     const newInvoice = {
       id: invoices.length + 1,
       serial: `00${invoices.length + 1}`,
-      customer: 'Jane Doe',
-      product: 'Tablet',
+      productId: selectedProduct.id,
+      customerId: selectedCustomer.id,
+      customerName: selectedCustomer.name,
+      productName: selectedProduct.name,
       qty: 2,
-      tax: 50,
-      total: 1050,
+      tax: selectedProduct.tax,
+      total: 2 * (selectedProduct.unitPrice + selectedProduct.tax),
       date: new Date().toLocaleDateString(),
     };
     dispatch(addInvoice(newInvoice));
@@ -40,8 +54,8 @@ const Invoices = () => {
           {invoices.map((invoice) => (
             <TableRow key={invoice.id}>
               <TableCell>{invoice.serial}</TableCell>
-              <TableCell>{invoice.customer}</TableCell>
-              <TableCell>{invoice.product}</TableCell>
+              <TableCell>{invoice.customerName}</TableCell>
+              <TableCell>{invoice.productName}</TableCell>
               <TableCell>{invoice.qty}</TableCell>
               <TableCell>{invoice.tax}</TableCell>
               <TableCell>{invoice.total}</TableCell>

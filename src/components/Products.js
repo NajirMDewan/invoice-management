@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
-import { addProduct } from '../redux/productsSlice';
+import { addProduct, updateProduct } from '../redux/productsSlice';
+import { syncProduct } from '../redux/invoicesSlice'
 
 const Products = () => {
   const products = useSelector((state) => state.products); // Access products state
@@ -17,6 +18,11 @@ const Products = () => {
       priceWithTax: 55,
     };
     dispatch(addProduct(newProduct)); // Add product to Redux store
+  };
+
+  const handleUpdateProduct = (updatedProduct) => {
+    dispatch(updateProduct(updatedProduct));
+    dispatch(syncProduct(updatedProduct)); //Sync product with invoices
   };
 
   return (
@@ -40,6 +46,18 @@ const Products = () => {
               <TableCell>{product.unitPrice}</TableCell>
               <TableCell>{product.tax}</TableCell>
               <TableCell>{product.priceWithTax}</TableCell>
+              <TableCell>
+                <button
+                  onClick={() =>
+                    handleUpdateProduct({
+                      ...product,
+                      name: `Updated ${product.name}`, // Example update
+                    })
+                  }
+                >
+                  Edit
+                </button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
