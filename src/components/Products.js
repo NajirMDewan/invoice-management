@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
 import { addProduct, updateProduct } from '../redux/productsSlice';
@@ -8,16 +8,33 @@ const Products = () => {
   const products = useSelector((state) => state.products); // Access products state
   const dispatch = useDispatch();
 
+  // local state for new product details
+  const [productName, setProductName] = useState("");
+  const [unitPrice, setUnitPrice] = useState("");
+  const [tax, setTax] = useState("");
+  const [qty, setQty] = useState("");
+
   const handleAddProduct = () => {
+    //Validating name and unitprice are valid
+    if (!productName || unitPrice <= 0 || tax <0) {
+      alert("Enter a valid product details.");
+      return;
+    }
+
     const newProduct = {
       id: products.length + 1,
-      name: `Product ${products.length + 1}`,
-      qty: 100,
-      unitPrice: 50,
-      tax: 5,
-      priceWithTax: 55,
+      name: productName,
+      qty: qty,  //default quantity
+      unitPrice: parseFloat(unitPrice),
+      tax: parseFloat(tax),
+      priceWithTax: (parseFloat(unitPrice) + parseFloat(tax)) * parseFloat(qty),
     };
     dispatch(addProduct(newProduct)); // Add product to Redux store
+
+    // Reset input fields
+    setProductName("");
+    setUnitPrice("");
+    setTax("");
   };
 
   const handleUpdateProduct = (updatedProduct) => {
@@ -27,7 +44,34 @@ const Products = () => {
 
   return (
     <div>
+      <h3>Add Product</h3>
+      <input
+        type='text'
+        placeholder='Product Name'
+        value={productName}
+        onChange={(e) => setProductName(e.target.value)}
+      />
+      <input
+        type='number'
+        placeholder='Quantity'
+        value={qty}
+        onChange={(e) => setQty(e.target.value)}
+      />
+      <input
+        type='number'
+        placeholder='Unit Price'
+        value={unitPrice}
+        onChange={(e) => setUnitPrice(e.target.value)}
+      />
+      <input
+        type='number'
+        placeholder='Tax'
+        value={tax}
+        onChange={(e) => setTax(e.target.value)}
+      />
       <button onClick={handleAddProduct}>Add Product</button>
+
+      <h3>Products List</h3>
       <Table>
         <TableHead>
           <TableRow>
