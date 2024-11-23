@@ -13,6 +13,9 @@ const invoicesSlice = createSlice({
         state[index] = action.payload;
       }
     },
+    deleteInvoice: (state, action) => {
+      return state.filter((invoice) => invoice.id !== action.payload);
+    },
 
     // Upadte product details in all invoices
     syncProduct: (state, action) => {
@@ -40,5 +43,5 @@ const invoicesSlice = createSlice({
   },
 });
 
-export const { addInvoice, updateInvoice, syncProduct, syncCustomer } = invoicesSlice.actions;
+export const { addInvoice, updateInvoice, deleteInvoice, syncProduct, syncCustomer } = invoicesSlice.actions;
 export default invoicesSlice.reducer;
